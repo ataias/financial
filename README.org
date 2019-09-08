@@ -10,5 +10,6 @@ some personal or family financial data to allow someone to track progress.
 ** DONE Simulation of how much is needed
 ** TODO Define how data needs to be stored
 ** TODO Import csv data and bank balances
+   - Maybe http://fsharp.github.io/FSharp.Data/
 ** TODO Compare plan to actual
 ** TODO Generate chart
