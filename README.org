@@ -1,0 +1,14 @@
+#+TITLE: Financial
+
+* Introduction
+
+The intention of this repo is to have tools to help achieve financial
+independence. It is probably going to be filled with simple F# code to parse
+some personal or family financial data to allow someone to track progress.
+
+* Scope
+** DONE Simulation of how much is needed
+** TODO Define how data needs to be stored
+** TODO Import csv data and bank balances
+** TODO Compare plan to actual
+** TODO Generate chart
