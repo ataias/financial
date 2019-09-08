@@ -7,7 +7,7 @@ module Interest =
       Symbol: string
   }
 
-  let rec interest rate amount delta n =
+  let rec public interest rate amount delta n =
       match n with
           | 0 -> amount
           | _ ->
