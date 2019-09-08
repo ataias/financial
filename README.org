@@ -13,3 +13,4 @@ some personal or family financial data to allow someone to track progress.
    - Maybe http://fsharp.github.io/FSharp.Data/
 ** TODO Compare plan to actual
 ** TODO Generate chart
+** TODO Based on balance variation, create ledger entries
