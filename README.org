@@ -8,9 +8,12 @@ some personal or family financial data to allow someone to track progress.
 
 * Scope
 ** DONE Simulation of how much is needed
+** TODO Consider inflation
 ** TODO Define how data needs to be stored
 ** TODO Import csv data and bank balances
    - Maybe http://fsharp.github.io/FSharp.Data/
 ** TODO Compare plan to actual
 ** TODO Generate chart
 ** TODO Based on balance variation, create ledger entries
+** TODO Show percent increase in total
+** TODO Show percent increase per area
