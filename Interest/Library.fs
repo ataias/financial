@@ -1,11 +1,31 @@
 ﻿namespace Interest
 open System
+open FSharp.Data
 
 module Interest =
+
   type Header = {
       Value: float
       Symbol: string
   }
+
+  type Broker =
+      | EasyInvest
+
+  type InvestmentInfo = {
+      Broker: Broker
+      Qty: decimal
+      Investment: string
+      Description: string
+      DueDate: string //DateTime option
+      AgreedRate: string //float option
+      InitialAmount: string //decimal
+      GrossAmount: string //decimal
+      NetAmount: string
+  }
+
+
+  type EasyInvestTable = CsvProvider<"/Users/ataias/easyinvest-2019-no-sep.csv", ";">
 
   let rec public interest rate amount delta n =
       match n with
@@ -14,6 +34,10 @@ module Interest =
               interest rate (amount*(1.+rate) + delta) delta (n-1)
 
 
+  /// <summary>
+  /// Simulates evolution of capital for different interest rates and
+  /// different injections of money per month for a given amount of years
+  /// </summary>
   let public simulate nYears =
       let rates = [for i in 1..15 -> 0.1*(float i)/100.0]
       let n = rates.Length
@@ -55,3 +79,31 @@ module Interest =
       let n = left.Length + 1
       let m = top.Length + 1
       Array2D.init n m genElement
+
+  let public read (broker:Broker) (uri:string) : InvestmentInfo[] =
+      let convert (e:EasyInvestTable.Row) : InvestmentInfo =
+          { Broker=EasyInvest
+            Qty=e.``QUANTIDADE``
+            Investment=e.``TIPO DE INVESTIMENTO``
+            Description=e.``DESCRIÇÃO``
+            DueDate=e.``VENCIMENTO``
+            AgreedRate=e.``TAXA NEGOCIADA``
+            InitialAmount=e.``VALOR APLICADO``
+            GrossAmount=e.``VALOR BRUTO``
+            NetAmount=e.``VALOR LÍQUIDO``}
+      // let convert (e:EasyInvestTable.Row) : InvestmentInfo =
+      //     { Broker=EasyInvest
+      //       Qty=4.
+      //       Investment="2"
+      //       Description="2"
+      //       DueDate="2"
+      //       AgreedRate="2"
+      //       InitialAmount="2"
+      //       GrossAmount="2"
+      //       NetAmount="2" }
+
+      match broker with
+          | EasyInvest ->
+              let data = EasyInvestTable.Load(uri)
+              Seq.map convert data.Rows
+              |> Array.ofSeq
