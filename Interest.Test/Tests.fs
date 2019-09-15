@@ -36,7 +36,7 @@ let ``Finance should be able to import EasyInvest CSV data into a format parsabl
     //     data.Split([|'\n'|])
     //     |> fun x -> Array.sub x 0 1 // only first elements to make it easier for now
     //     |> String.concat "\n"
-    let parsed = Interest.read (Interest.EasyInvest) "/Users/ataias/easyinvest-2019-no-sep.csv"
+    let parsed = Interest.read (Interest.EasyInvest) "../../../../data/easyinvest-2019-no-sep.csv"
     let (expected:Interest.InvestmentInfo[]) = [|
           { Broker=Interest.EasyInvest
             Qty=4.0M
