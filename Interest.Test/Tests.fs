@@ -65,7 +65,6 @@ let ``Import EasyInvest CSV data into a format parsable later``() =
              GrossAmount = 4616.28
              NetAmount = Some 4444.49 } |]
 
-    let (len:int) = min expected.Length parsed.Length
     Assert.Equal(expected.Length, parsed.Length)
     for (e, p) in Array.zip expected parsed do
-      Assert.Equal<InvestmentInfo>(expected, parsed)
+      Assert.Equal(e, p)
