@@ -1,4 +1,4 @@
-﻿namespace Interest
+namespace Interest
 open System
 open FSharp.Data
 
@@ -25,7 +25,7 @@ module Interest =
   }
 
 
-  type EasyInvestTable = CsvProvider<"/Users/ataias/easyinvest-2019-no-sep.csv", ";">
+  type EasyInvestTable = CsvProvider<"../data/easyinvest-2019-no-sep.csv", ";">
 
   let rec public interest rate amount delta n =
       match n with
