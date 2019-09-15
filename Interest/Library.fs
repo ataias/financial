@@ -17,15 +17,18 @@ module Interest =
       Qty: decimal
       Investment: string
       Description: string
-      DueDate: string //DateTime option
-      AgreedRate: string //float option
-      InitialAmount: string //decimal
-      GrossAmount: string //decimal
-      NetAmount: string
+      DueDate: DateTime option
+      AgreedRate: string option
+      InitialAmount: float option
+      GrossAmount: float
+      NetAmount: float option
   }
 
 
-  type EasyInvestTable = CsvProvider<"../data/easyinvest-2019-no-sep.csv", ";">
+  type EasyInvestTable =
+      CsvProvider<"../data/easyinvest-2019-no-sep.csv", ";",
+                  PreferOptionals=true,
+                  Culture="pt-BR">
 
   let rec public interest rate amount delta n =
       match n with

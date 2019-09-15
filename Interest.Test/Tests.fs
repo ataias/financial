@@ -4,12 +4,14 @@ open System
 open System.IO
 open Xunit
 open Interest
+open Interest.Interest
 
 let lowValue = -0.001
 let highValue = 0.001
 
+
 [<Fact>]
-let ``Test interest for one month without delta`` () =
+let ``Test interest for one month without delta``() =
     let rate = 0.1 / 100.0
     let amount = 10000.
     let delta = 0.
@@ -18,7 +20,7 @@ let ``Test interest for one month without delta`` () =
     Assert.Equal(amount * (1. + rate) ** 1., newAmount)
 
 [<Fact>]
-let ``Test interest for 5 months without delta`` () =
+let ``Test interest for 5 months without delta``() =
     let rate = 0.1 / 100.0
     let amount = 10000.
     let delta = 0.
@@ -28,24 +30,43 @@ let ``Test interest for 5 months without delta`` () =
     Assert.InRange(amount * (1. + rate) ** 5. - newAmount, lowValue, highValue)
 
 [<Fact>]
-let ``Finance should be able to import EasyInvest CSV data into a format parsable later`` () =
-    // let file = "../data/easyinvest-2019-09-14.csv"
+let ``Import EasyInvest CSV data into a format parsable later``() =
+    let parsed =
+        Interest.read (Interest.EasyInvest)
+            "../../../../data/easyinvest-2019-no-sep.csv"
+        |> Array.rev
+        |> Array.take 3
 
-    // let data = File.ReadAllLines file
-    // let (data:string) =
-    //     data.Split([|'\n'|])
-    //     |> fun x -> Array.sub x 0 1 // only first elements to make it easier for now
-    //     |> String.concat "\n"
-    let parsed = Interest.read (Interest.EasyInvest) "../../../../data/easyinvest-2019-no-sep.csv"
-    let (expected:Interest.InvestmentInfo[]) = [|
-          { Broker=Interest.EasyInvest
-            Qty=4.0M
-            Investment="CDB"
-            Description="BANCO MAXIMA"
-            DueDate="31/07/2020"
-            AgreedRate="124% do CDI"
-            InitialAmount="R$4.000,00"
-            GrossAmount="R$4.350,94"
-            NetAmount="R$4.289,53"}
-        |]
-    Assert.Equal<Interest.InvestmentInfo[]>(expected, parsed)
+    let (expected: Interest.InvestmentInfo []) =
+        [| { Broker = EasyInvest
+             Qty = 20.0M
+             Investment = "Ações"
+             Description = "ACTI01"
+             DueDate = None
+             AgreedRate = None
+             InitialAmount = None
+             GrossAmount = 2571.6
+             NetAmount = None }
+           { Broker = EasyInvest
+             Qty = 2.0M
+             Investment = "Tesouro Direto"
+             Description = "Tesouro 5"
+             DueDate = Some (DateTime(2035, 5, 15))
+             AgreedRate = Some "IPCA"
+             InitialAmount = Some 2615.3
+             GrossAmount = 3636.08
+             NetAmount = Some 3455.57 }
+           { Broker = EasyInvest
+             Qty = 1.10M
+             Investment = "Tesouro Direto"
+             Description = "Tesouro 4"
+             DueDate = Some (DateTime(2035, 5, 15))
+             AgreedRate = Some "IPCA"
+             InitialAmount = Some 3648.25
+             GrossAmount = 4616.28
+             NetAmount = Some 4444.49 } |]
+
+    let (len:int) = min expected.Length parsed.Length
+    Assert.Equal(expected.Length, parsed.Length)
+    for (e, p) in Array.zip expected parsed do
+      Assert.Equal<InvestmentInfo>(expected, parsed)
