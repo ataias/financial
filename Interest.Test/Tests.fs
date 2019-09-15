@@ -66,5 +66,7 @@ let ``Import EasyInvest CSV data into a format parsable later``() =
              NetAmount = Some 4444.49 } |]
 
     Assert.Equal(expected.Length, parsed.Length)
+    // Calling Assert.Equal for each element allows us to see a more
+    // human-readable error message when the test fails
     for (e, p) in Array.zip expected parsed do
       Assert.Equal(e, p)
