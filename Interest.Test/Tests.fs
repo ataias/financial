@@ -16,7 +16,7 @@ let ``Test interest for one month without delta``() =
     let amount = 10000.
     let delta = 0.
     let months = 1
-    let newAmount = Interest.interest rate amount delta months
+    let newAmount = interest rate amount delta months
     Assert.Equal(amount * (1. + rate) ** 1., newAmount)
 
 [<Fact>]
@@ -25,19 +25,18 @@ let ``Test interest for 5 months without delta``() =
     let amount = 10000.
     let delta = 0.
     let months = 5
-    let newAmount = Interest.interest rate amount delta months
+    let newAmount = interest rate amount delta months
     // comparison of doubles is tricky, so accepting range here
     Assert.InRange(amount * (1. + rate) ** 5. - newAmount, lowValue, highValue)
 
 [<Fact>]
 let ``Import EasyInvest CSV data into a format parsable later``() =
     let parsed =
-        Interest.read (Interest.EasyInvest)
-            "../../../../data/easyinvest-2019-no-sep.csv"
+        read EasyInvest "../../../../data/easyinvest-2019-no-sep.csv"
         |> Array.rev
         |> Array.take 3
 
-    let (expected: Interest.InvestmentInfo []) =
+    let (expected: InvestmentInfo []) =
         [| { Broker = EasyInvest
              Qty = 20.0M
              Investment = "Ações"
